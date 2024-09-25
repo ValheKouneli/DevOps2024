@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "type": "module",
+  "name": "app1",
+  "version": "1.0.0",
+  "description": "Test app",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "test",
+    "start": "node app.js"
+  },
+  "author": "Valhe Kouneli",
+  "license": "ISC"
+}
