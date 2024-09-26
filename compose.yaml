@@ -1,0 +1,27 @@
+services:
+  frontend:
+    image: node-docker
+    depends_on:
+      - backend
+    ports:
+      - "8199:3000"
+    networks:
+      - front-tier
+      - back-tier
+    build:
+      context: app1
+      dockerfile: Dockerfile
+    expose:
+      - "8199"
+
+  backend:
+    image: go-docker
+    networks:
+      - back-tier
+    build:
+      context: app2
+      dockerfile: Dockerfile
+
+networks:
+  front-tier: {}
+  back-tier: {}

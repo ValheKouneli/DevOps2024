@@ -27,6 +27,16 @@ function getIPAddress() {
   return 'IP Address: Not found\n';
 }
 
+// Fetch data from another server using curl
+async function fetchDataFromServer(url) {
+    try {
+        const response = await $`curl -s ${url}`;
+        return response.stdout;
+    } catch (error) {
+        return `Error fetching data from ${url}: ${error.message}`;
+    }
+}
+
 function encode(e){return e.replace(/[^]/g,function(e){return"&#"+e.charCodeAt(0)+";"})}
 
 // Handle the root request
@@ -45,12 +55,12 @@ app.get('/', async (req, res) => {
     const diskUsage = await $`df -h`;
 
     // Combine the output
-    
     const info = `${ipAddress}${uptime}\nProcesses (ps aux):\n${processes}\n\nDisk Usage (df -h):\n${diskUsage}`;
 
-    // Wrap the result in pre tags and sanitize innards
+    const infoFromAnother = await fetchDataFromServer("http://backend:8080");
 
-    const result = `<pre style="word-wrap: break-word; white-space: pre-wrap;">${encode(info)}</pre>`
+    // Wrap the result in pre tags and sanitize innards
+    const result = `<pre style="word-wrap: break-word; white-space: pre-wrap;">${encode(info)}</pre><br><pre style="word-wrap: break-word; white-space: pre-wrap;">${encode(infoFromAnother)}</pre>`
     
     // Send the response
     res.send(result);
