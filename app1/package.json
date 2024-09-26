@@ -3,7 +3,6 @@
     "express": "^4.21.0",
     "zx": "^8.1.8"
   },
-  "type": "module",
   "name": "app1",
   "version": "1.0.0",
   "description": "Test app",

@@ -1,31 +1,65 @@
-import express from "express";
-import os from "os";
-import { $ } from 'zx';
+const express = require('express');
+const { $ } = require('zx');
+const os = require('os');
 
+// Initialize the express app
 const app = express();
+const port = 3000;
 
-app.get('/', async function (req, res) {
-    let info = "";
-    info += "<p>uptime: " + os.uptime() + "</p>\n";
+// Get system uptime
+function getUptime() {
+  const uptimeSeconds = os.uptime();
+  const uptimeHours = (uptimeSeconds / 3600).toFixed(0);
+  const uptimeMinutes = ((uptimeSeconds % 3600) / 60).toFixed(0)
+  return `System Uptime: up ${uptimeHours} hours, ${uptimeMinutes} minutes\n`;
+}
 
-    info += "<p>network " + os.networkInterfaces().lo[0].address + "</p>\n";
-    const psAuxOutput = await $`ps aux`;
-
-    function encode(e){return e.replace(/[^]/g,function(e){return"&#"+e.charCodeAt(0)+";"})}
-
-    const infoRows = psAuxOutput.toString().split("\n");
-    for (const nbr in infoRows) {
-        info += "<p>" + encode(infoRows[nbr]) + "</p>\n";
+// Get IP address
+function getIPAddress() {
+  const interfaces = os.networkInterfaces();
+  for (const iface in interfaces) {
+    for (const details of interfaces[iface]) {
+      if (details.family === 'IPv4' && !details.internal) {
+        return `Server IP Address: ${details.address}\n`;
+      }
     }
-    const dfhOutput = await $`df -h`;
-    const infoRows2 = dfhOutput.toString().split("\n");
-    for (const nbr in infoRows2) {
-        info += "<p>" + encode(infoRows2[nbr]) + "</p>\n";
-    }
-    res.send(info);
+  }
+  return 'IP Address: Not found\n';
+}
+
+function encode(e){return e.replace(/[^]/g,function(e){return"&#"+e.charCodeAt(0)+";"})}
+
+// Handle the root request
+app.get('/', async (req, res) => {
+  try {
+    // Get IP Address
+    const ipAddress = getIPAddress();
+
+    // Get system uptime
+    const uptime = getUptime();
+
+    // Run the 'ps aux' command
+    const processes = await $`ps aux`;
     
+    // Run the 'df -h' command
+    const diskUsage = await $`df -h`;
+
+    // Combine the output
+    
+    const info = `${ipAddress}${uptime}\nProcesses (ps aux):\n${processes}\n\nDisk Usage (df -h):\n${diskUsage}`;
+
+    // Wrap the result in pre tags and sanitize innards
+
+    const result = `<pre style="word-wrap: break-word; white-space: pre-wrap;">${encode(info)}</pre>`
+    
+    // Send the response
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(`Error: ${error.message}`);
+  }
 });
 
-app.listen(3000, function () {
-    console.log('App1 listening on port 3000!');
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
