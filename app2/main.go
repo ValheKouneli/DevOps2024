@@ -44,7 +44,7 @@ func getProcesses() (string, error) {
 
 // Get output of `df -h` command
 func getDiskUsage() (string, error) {
-	out, err := exec.Command("df", "-h").Output()
+	out, err := exec.Command("df").Output()
 	if err != nil {
 		return "", err
 	}

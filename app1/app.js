@@ -51,8 +51,8 @@ app.get('/', async (req, res) => {
     // Run the 'ps aux' command
     const processes = await $`ps aux`;
     
-    // Run the 'df -h' command
-    const diskUsage = await $`df -h`;
+    // Run the 'df' command
+    const diskUsage = await $`df`;
 
     // Combine the output
     const info = `${ipAddress}${uptime}\nProcesses (ps aux):\n${processes}\n\nDisk Usage (df -h):\n${diskUsage}`;

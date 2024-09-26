@@ -1,0 +1,29 @@
+Used tool: ChatGPT-4o free version
+
+How I used it:
+I asked ChatGPT to write be a Go server that respons to a GET
+request with the specified information. I made ChatGPT re-do my
+node-server that I wrote myself, using libraries that I picked
+myself.
+
+Motivation:
+I only knew how to write a web server in JavaScript
+beforehand, and I didn't have the time to learning how
+to do it in some other language. I spent a lot of time trying to
+write a server in Python, but wasn't able to make it work in a container.
+The learning goals of this excerice did not include how to write
+a webserver or learning a new language, so I felt the use of LLM was
+justified. Once I had used ChatGPT to create the Go server, I wanted to
+make my node server equally neat. I had never used ChatGPT before to
+write code, and I was interested in learning how it could be used to
+get started with a project.
+
+How it helped:
+ChatGPT made be able to focus on the primary learning goals of the excercise.
+
+What kind of mistakes the LLM did:
+When writing the node server, GhatGPT's server's response to GET was not
+formatted correctly, as it was all in one line. I used my own original code
+to fix it. ChatGPT also didn't use the correct name for a library function
+from the library I told it to use. ChatGPT was not able to correct the mistake
+with formatting even when requested.
