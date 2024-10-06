@@ -1,0 +1,13 @@
+valhe@ypsilon:~/Git/DevOpsEx1$ docker container ls
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                                                 NAMES
+24710b331fb6   node-docker   "docker-entrypoint.s…"   58 minutes ago   Up 58 minutes   8199/tcp, 0.0.0.0:8199->3000/tcp, :::8199->3000/tcp   devopsex1_frontend_1
+82f4c59bebea   go-docker     "/go-server"             58 minutes ago   Up 58 minutes   8080/tcp                                              devopsex1_backend_1
+
+valhe@ypsilon:~/Git/DevOpsEx1$ docker network ls
+NETWORK ID     NAME                   DRIVER    SCOPE
+ff45d8dbe78a   bridge                 bridge    local
+772ed58366ce   devopsex1_back-tier    bridge    local
+7d159fc14859   devopsex1_front-tier   bridge    local
+bf09796e107e   host                   host      local
+42045bf428ff   none                   null      local
+
