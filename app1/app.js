@@ -53,7 +53,11 @@ app.get('/', async (req, res) => {
     const infoFromAnother = await fetchDataFromServer("http://backend:8080");
 
     // Wrap the result in pre tags and sanitize innards
-    const result = `${info}\n\n\n${infoFromAnother}`
+    const result = `Service\n\n` +
+      `${info}` +
+      `\n\n\n` +
+      `Service2\n\n` +
+      `${infoFromAnother}`
     
     // Send the response
     res.send(result);
