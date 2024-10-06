@@ -48,7 +48,7 @@ app.get('/', async (req, res) => {
     const info = `Server IP Address: ${ipAddress}\n`+
       `System Uptime: ${uptime}\n`+
       `Processes (ps aux):\n${processes}\n\n` +
-      `Disk Usage (df -h):\n${diskUsage}`;
+      `Disk Usage (df):\n${diskUsage}`;
 
     const infoFromAnother = await fetchDataFromServer("http://backend:8080");
 

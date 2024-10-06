@@ -85,7 +85,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Server IP Address: %s\n", ipAddress)
 	fmt.Fprintf(w, "System Uptime: %s\n", strings.TrimSpace(uptime))
 	fmt.Fprintf(w, "\nProcesses (ps aux):\n%s\n", processes)
-	fmt.Fprintf(w, "\nDisk Usage (df -h):\n%s\n", diskUsage)
+	fmt.Fprintf(w, "\nDisk Usage (df):\n%s\n", diskUsage)
 }
 
 func main() {
