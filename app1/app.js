@@ -52,7 +52,7 @@ app.get('/', async (req, res) => {
 
     const infoFromAnother = await fetchDataFromServer("http://backend:8080");
 
-    // Wrap the result in pre tags and sanitize innards
+    // Compose response
     const result = `Service\n\n` +
       `${info}` +
       `\n\n\n` +
