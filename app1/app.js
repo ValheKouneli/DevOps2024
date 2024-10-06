@@ -6,25 +6,17 @@ const os = require('os');
 const app = express();
 const port = 3000;
 
-// Get system uptime
-function getUptime() {
-  const uptimeSeconds = os.uptime();
-  const uptimeHours = (uptimeSeconds / 3600).toFixed(0);
-  const uptimeMinutes = ((uptimeSeconds % 3600) / 60).toFixed(0)
-  return `System Uptime: up ${uptimeHours} hours, ${uptimeMinutes} minutes\n`;
-}
-
 // Get IP address
 function getIPAddress() {
   const interfaces = os.networkInterfaces();
   for (const iface in interfaces) {
     for (const details of interfaces[iface]) {
       if (details.family === 'IPv4' && !details.internal) {
-        return `Server IP Address: ${details.address}\n`;
+        return details.address;
       }
     }
   }
-  return 'IP Address: Not found\n';
+  return 'Not found';
 }
 
 // Fetch data from another server using curl
@@ -37,8 +29,6 @@ async function fetchDataFromServer(url) {
     }
 }
 
-function encode(e){return e.replace(/[^]/g,function(e){return"&#"+e.charCodeAt(0)+";"})}
-
 // Handle the root request
 app.get('/', async (req, res) => {
   try {
@@ -46,7 +36,7 @@ app.get('/', async (req, res) => {
     const ipAddress = getIPAddress();
 
     // Get system uptime
-    const uptime = getUptime();
+    const uptime = await $`uptime -p`;
 
     // Run the 'ps aux' command
     const processes = await $`ps aux`;
@@ -55,12 +45,15 @@ app.get('/', async (req, res) => {
     const diskUsage = await $`df`;
 
     // Combine the output
-    const info = `${ipAddress}${uptime}\nProcesses (ps aux):\n${processes}\n\nDisk Usage (df -h):\n${diskUsage}`;
+    const info = `Server IP Address: ${ipAddress}\n`+
+      `System Uptime: ${uptime}\n`+
+      `Processes (ps aux):\n${processes}\n\n` +
+      `Disk Usage (df -h):\n${diskUsage}`;
 
     const infoFromAnother = await fetchDataFromServer("http://backend:8080");
 
     // Wrap the result in pre tags and sanitize innards
-    const result = `<pre style="word-wrap: break-word; white-space: pre-wrap;">${encode(info)}</pre><br><pre style="word-wrap: break-word; white-space: pre-wrap;">${encode(infoFromAnother)}</pre>`
+    const result = `${info}\n\n\n${infoFromAnother}`
     
     // Send the response
     res.send(result);
