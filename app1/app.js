@@ -29,38 +29,35 @@ async function fetchDataFromServer(url) {
     }
 }
 
-// Handle the root request
+// Display index page
 app.get('/', async (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/make_request', async (req, res) => {
   try {
-    // Get IP Address
-    const ipAddress = getIPAddress();
+    // // Get IP Address
+    // const ipAddress = getIPAddress();
 
-    // Get system uptime
-    const uptime = await $`uptime -p`;
+    // // Get system uptime
+    // const uptime = await $`uptime -p`;
 
-    // Run the 'ps aux' command
-    const processes = await $`ps aux`;
+    // // Run the 'ps aux' command
+    // const processes = await $`ps aux`;
     
-    // Run the 'df' command
-    const diskUsage = await $`df`;
+    // // Run the 'df' command
+    // const diskUsage = await $`df`;
 
-    // Combine the output
-    const info = `Server IP Address: ${ipAddress}\n`+
-      `System Uptime: ${uptime}\n`+
-      `\nProcesses (ps aux):\n${processes}\n` +
-      `\nDisk Usage (df):\n${diskUsage}`;
+    // // Combine the output
+    // const info = `Server IP Address: ${ipAddress}\n`+
+    //   `System Uptime: ${uptime}\n`+
+    //   `\nProcesses (ps aux):\n${processes}\n` +
+    //   `\nDisk Usage (df):\n${diskUsage}`;
 
     const infoFromAnother = await fetchDataFromServer("http://backend:8080");
-
-    // Compose response
-    const result = `Service\n\n` +
-      `${info}` +
-      `\n\n\n` +
-      `Service2\n\n` +
-      `${infoFromAnother}`
     
     // Send the response
-    res.send(result);
+    res.json({ message: infoFromAnother, status: 'success' });
   } catch (error) {
     res.status(500).send(`Error: ${error.message}`);
   }
