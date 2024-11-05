@@ -54,12 +54,12 @@ app.get('/make_request', async (req, res) => {
     //   `\nProcesses (ps aux):\n${processes}\n` +
     //   `\nDisk Usage (df):\n${diskUsage}`;
 
-    const infoFromAnother = await fetchDataFromServer("http://backend:8080");
+    const infoFromAnother = await fetchDataFromServer(`http://nginx:${process.env.SERVER_PORT}`);
     
     // Send the response
     res.json({ message: infoFromAnother, status: 'success' });
   } catch (error) {
-    res.status(500).send(`Error: ${error.message}`);
+    res.json({ message:`Error: ${error.message}`, status: 'failure' });
   }
 });
 

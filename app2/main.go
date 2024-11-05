@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"os/exec"
+	"os"
 	"strings"
 	"time"
 )
@@ -110,7 +111,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", handler)
 
-	port := "8080"
+	port := os.Getenv("PORT")
 	fmt.Printf("Server is running on port %s...\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

@@ -2,25 +2,65 @@ services:
   frontend:
     image: node-docker
     container_name: my_frontend
-    depends_on:
-      - backend
     networks:
-      - front-tier
-      - back-tier
       - app-network
     expose:
       - "3000"
+    environment:
+      - PORT=3000
+      - SERVER_PORT=8080
     build:
       context: app1
       dockerfile: Dockerfile
 
-  backend:
+  backend-1:
     image: go-docker
-    container_name: my_backend
+    container_name: my_backend_1
     networks:
-      - back-tier
+      - loadbalancing
     expose:
-      - "8080"
+      - "5050"
+    environment:
+      - PORT=5050
+    build:
+      context: app2
+      dockerfile: Dockerfile
+  
+  backend-2:
+    image: go-docker
+    container_name: my_backend_2
+    networks:
+      - loadbalancing
+    expose:
+      - "5050"
+    environment:
+      - PORT=5050
+    build:
+      context: app2
+      dockerfile: Dockerfile
+  
+  backend-3:
+    image: go-docker
+    container_name: my_backend_3
+    networks:
+      - loadbalancing
+    environment:
+      - PORT=5050
+    expose:
+      - "5050"
+    build:
+      context: app2
+      dockerfile: Dockerfile
+  
+  backend-4:
+    image: go-docker
+    container_name: my_backend_4
+    networks:
+      - loadbalancing
+    expose:
+      - "5050"
+    environment:
+      - PORT=5050
     build:
       context: app2
       dockerfile: Dockerfile
@@ -32,11 +72,19 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "8198:8198"
+    expose:
+      - "8080"
     networks:
       - app-network
+      - loadbalancing
+    depends_on:
+      - backend-1
+      - backend-2
+      - backend-3
+      - backend-4
+      - frontend
 
 networks:
   app-network:
     driver: bridge
-  front-tier: {}
-  back-tier: {}
+  loadbalancing:
