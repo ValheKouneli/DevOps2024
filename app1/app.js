@@ -37,7 +37,21 @@ app.get('/', async (req, res) => {
 });
 
 
-app.get('/make_request', async (req, res) => {
+app.get('/info', async (req, res) => {
+  try {
+    await waitIfRequestsTooFrequent();
+    const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}/info`);
+    
+    // Send the response
+    res.status(200).send({ message: infoFromAnother });
+
+    sleep(10000);
+  } catch (error) {
+    res.status(400).send({ message:`Error: ${error.message}` });
+  }
+});
+
+app.get('/stop_all', async (req, res) => {
   try {
     await waitIfRequestsTooFrequent();
     const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}/stop-all`);

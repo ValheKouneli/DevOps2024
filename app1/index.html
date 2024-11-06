@@ -2,16 +2,26 @@
 <html lang="en">
 <body>
   <button onclick="sendRequest()">REQUEST</button>
+  <button onclick="stopContainers()">STOP</button>
   <textarea id="my_textarea"></textarea>
 
   <script>
     async function sendRequest() {
       try {
-        const response = await fetch('/make_request');
+        const response = await fetch('/info');
         const data = await response.json();
         document.getElementById('my_textarea').textContent = data.message || data.error;
       } catch (error) {
         document.getElementById('my_textarea').textContent = `Error: ${error.message}`;
+      }
+    }
+    async function stopContainers() {
+      try {
+        const response = await fetch('/stop_all');
+        const data = await response.json();
+        document.getElementById('my_textarea').textContent = data.message || data.error;
+      } catch (error) {
+        document.getElementById('my_textarea').textContent = `Stop Error (This error is expected): ${error.message}`;
       }
     }
   </script>

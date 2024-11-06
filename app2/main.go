@@ -67,8 +67,7 @@ func stopAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Done")
 }
 
-// HTTP handler function
-func handler(w http.ResponseWriter, r *http.Request) {
+func getInfo(w http.ResponseWriter, r *http.Request) {
 	// Get IP address
 	ipAddress, err := getIPAddress()
 	if err != nil {
@@ -105,7 +104,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/get-info", handler)
+	http.HandleFunc("/info", getInfo)
 	http.HandleFunc("/stop-all", stopAll)
 
 	port := os.Getenv("PORT")
