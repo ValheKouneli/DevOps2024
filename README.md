@@ -6,7 +6,6 @@ See llm.txt for more information.
 Assumptions:
 * Docker compose is installed on the host (tested with v. 2.29.6)
 * Docker is installed on the host (tested with v. 24.0.7, build 24.0.7-0ubuntu2~22.04.1)
-* Preferably `curl` can be used on the host.
 
 Clone repository onto host. Run
 
@@ -15,23 +14,20 @@ docker-compose up --build -d
 ```
 
 or equivalent command in the same repository as where the compose.yaml file is.
-It creates two docker containers. One runs a node server and another one a golang server.
+It creates five docker containers. Three instances of node servers, one go server,
+and nginx.
 
-Now, when a HTTP request is made to localhost:8199, the node server should respond with
-plaintext information about what its IP address is, the processes it can see (`ps aux`), the available
-disk space it can see (`df`), and time since last reboot (`uptime -p`). Behind the scenes,
-it makes a request to the golang server, which gives it the same information, and the node
-server returns the combained information as a response to the HTTP request. The golang server
-should not be reachable by other means than by the node container as a proxy.
+When visiting localhost:8198 on a browser, login info is asked. You can find login
+info from login.txt. When login info is entered correctly, two buttons and
+a textarea is displayed. When REQUEST is pressed, one of the node servers sends
+a request to the go server. Go server rensponds, and the reponse is displayed
+in the textarea. When STOP is pressed, all containers are stopped.
 
-If `curl` is available, run
-```
-curl localhost:8199
-```
-on the host computer to see the response.
+Nginx acts as a load balancer to the node servers.
+
 
 To stop the container processes, run
 ```
 docker-compose down
 ```
-in the repository of the compose.yaml file.
+in the repository of the compose.yaml file or use the STOP button.
