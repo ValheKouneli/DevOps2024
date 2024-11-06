@@ -9,7 +9,7 @@ services:
       - "${FE_PORT}"
     environment:
       - PORT=${FE_PORT}
-      - SERVER_PORT=${BE_PORT} 
+      - BE_PORT=${BE_PORT} 
       - FE_WAIT_TIME_MS=${FE_WAIT_TIME_MS}
     build:
       context: app1
@@ -25,7 +25,7 @@ services:
       - "${FE_PORT}"
     environment:
       - PORT=${FE_PORT}
-      - SERVER_PORT=${BE_PORT}
+      - BE_PORT=${BE_PORT}
       - FE_WAIT_TIME_MS=${FE_WAIT_TIME_MS}
     build:
       context: app1
@@ -41,7 +41,7 @@ services:
       - "${FE_PORT}"
     environment:
       - PORT=${FE_PORT}
-      - SERVER_PORT=${BE_PORT}
+      - BE_PORT=${BE_PORT}
       - FE_WAIT_TIME_MS=${FE_WAIT_TIME_MS}
     build:
       context: app1
@@ -64,10 +64,14 @@ services:
     image: nginx:1-alpine
     container_name: my_nginx
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
+    command: /bin/sh -c "envsubst '$${FE_PORT} $${SERVER_PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
+    environment:
+      - FE_PORT=${FE_PORT}
+      - SERVER_PORT=${SERVER_PORT}
     networks:
       - loadbalancing
       - backend

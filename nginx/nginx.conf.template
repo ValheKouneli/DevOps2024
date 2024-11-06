@@ -3,13 +3,13 @@ events { }
 http {
  
     upstream frontend {
-        server my_frontend_1:3000;
-        server my_frontend_2:3000;
-        server my_frontend_3:3000;
+        server my_frontend_1:${FE_PORT};
+        server my_frontend_2:${FE_PORT};
+        server my_frontend_3:${FE_PORT};
     }
 
     server {
-        listen 8198;
+        listen ${SERVER_PORT};
 
         include /etc/nginx/mime.types;
 
