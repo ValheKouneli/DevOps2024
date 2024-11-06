@@ -12,10 +12,10 @@ http {
         listen ${SERVER_PORT} ;
 
         include /etc/nginx/mime.types;
-
+        auth_basic "Restricted access";
+	auth_basic_user_file /etc/nginx/.htpasswd;
+ 
         location / {
-            auth_basic "Restricted access";
-	    auth_basic_user_file /etc/nginx/.htpasswd;
             root /var/www;
             index index.html;
 	}
