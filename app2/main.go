@@ -52,6 +52,21 @@ func getDiskUsage() (string, error) {
 	return string(out), nil
 }
 
+func stopAll(w http.ResponseWriter, r *http.Request) {
+	// List of container names
+	containers := []string{"my_nginx", "my_frontend_1", "my_frontend_2", "my_frontend_3", "my_backend"}
+
+	// Loop through each container name and stop it
+	for _, container := range containers {
+		_, err := exec.Command("curl", "--unix-socket", "/var/run/docker.sock", "-X", "POST", fmt.Sprintf("http://localhost/containers/%s/stop", container)).Output()
+		if err != nil {
+			http.Error(w, "Error stopping container: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+	fmt.Fprintf(w, "Done")
+}
+
 // HTTP handler function
 func handler(w http.ResponseWriter, r *http.Request) {
 	// Get IP address
@@ -90,7 +105,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/get-info", handler)
+	http.HandleFunc("/stop-all", stopAll)
 
 	port := os.Getenv("PORT")
 	fmt.Printf("Server is running on port %s...\n", port)

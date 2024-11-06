@@ -40,7 +40,7 @@ app.get('/', async (req, res) => {
 app.get('/make_request', async (req, res) => {
   try {
     await waitIfRequestsTooFrequent();
-    const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}`);
+    const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}/stop-all`);
     
     // Send the response
     res.status(200).send({ message: infoFromAnother });
