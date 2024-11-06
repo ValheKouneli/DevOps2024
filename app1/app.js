@@ -4,20 +4,7 @@ const os = require('os');
 
 // Initialize the express app
 const app = express();
-const port = 3000;
-
-// Get IP address
-function getIPAddress() {
-  const interfaces = os.networkInterfaces();
-  for (const iface in interfaces) {
-    for (const details of interfaces[iface]) {
-      if (details.family === 'IPv4' && !details.internal) {
-        return details.address;
-      }
-    }
-  }
-  return 'Not found';
-}
+const port = process.env.PORT;
 
 // Fetch data from another server using curl
 async function fetchDataFromServer(url) {
@@ -36,25 +23,8 @@ app.get('/', async (req, res) => {
 
 app.get('/make_request', async (req, res) => {
   try {
-    // // Get IP Address
-    // const ipAddress = getIPAddress();
 
-    // // Get system uptime
-    // const uptime = await $`uptime -p`;
-
-    // // Run the 'ps aux' command
-    // const processes = await $`ps aux`;
-    
-    // // Run the 'df' command
-    // const diskUsage = await $`df`;
-
-    // // Combine the output
-    // const info = `Server IP Address: ${ipAddress}\n`+
-    //   `System Uptime: ${uptime}\n`+
-    //   `\nProcesses (ps aux):\n${processes}\n` +
-    //   `\nDisk Usage (df):\n${diskUsage}`;
-
-    const infoFromAnother = await fetchDataFromServer(`http://nginx:${process.env.SERVER_PORT}`);
+    const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.SERVER_PORT}`);
     
     // Send the response
     res.json({ message: infoFromAnother, status: 'success' });

@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"os"
 	"strings"
-	"time"
 )
 
 // Get IP address of the server
@@ -53,26 +52,8 @@ func getDiskUsage() (string, error) {
 	return string(out), nil
 }
 
-const WAIT_TIME = 2
-var lastRequestTime int64 = 0
-
-func preventTooFrequestRequest() {
-	for {
-		currentTime := time.Now().Unix()
-
-		if currentTime-lastRequestTime >= WAIT_TIME {
-			lastRequestTime = time.Now().Unix()
-			break
-		} 
-
-		time.Sleep(1 * time.Second)
-	}
-}
-
 // HTTP handler function
 func handler(w http.ResponseWriter, r *http.Request) {
-	preventTooFrequestRequest();
-
 	// Get IP address
 	ipAddress, err := getIPAddress()
 	if err != nil {
