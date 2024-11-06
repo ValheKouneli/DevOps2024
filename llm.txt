@@ -2,15 +2,22 @@ Used tool: ChatGPT-4o free version
 
 # How I used it:
 
-I asked ChatGPT to write be a Go server that respons to a GET
-request with the specified information (from exercice 1). I made ChatGPT re-do my
-node-server that I wrote myself, using libraries that I picked
-myself. I fixed and edited the Node server made by ChatGPT myself.
+I asked ChatGPT to write be the first version of the Go server that
+responded to a GET request with the specified information (from exercice 1).
+I made ChatGPT re-do my similar node-server that I wrote myself,
+using libraries that I picked myself.
+I fixed and edited the Node server made by ChatGPT myself. I also wrote myself
+add additional server code.
+I used ChatGPT to generate me a simple webpage, but I simplified it a lot
+and added the code the buttons execute.
 
-In the final exercice, I used ChatGPT to give me example templates for nginx,
-and I asked it how a container could be stopped from within the container.
+After having trouble making something work, I used ChatGPT to give me example
+templates for nginx.
+
+I asked it how a container could be stopped from within the container,
+and it gave me the idea of using the docker socket.
 I also made it suggest ideas on how to be able to use environment variables
-in a nginx conf file.
+in a nginx configuration file.
 
 
 
@@ -38,30 +45,34 @@ and I though it's a good idea to get to know how it can be used.
 ## In the final part of the exercice:
 
 I had learned that ChatGPT is a handy tool when facing some kind of
-road block, or being unable to stop a bug in the code. I knew it could
+road block, or being unable to spot a bug in the code. I knew it could
 give be good suggestions without stopping me from learning the essential
 stuff. I also liked how it could be used as a preliminary search engine,
-meaning I could google search whatever it suggested to me.
+meaning I could google search whatever it suggested to me. I knew it would
+save me time by generating code that I could easily write myself (html).
 
 
 
 # How it helped:
 
 ChatGPT made be able to focus on the primary learning goals of the excercise.
-Sometimes it was faster to find information using it than using google.
+Sometimes it was faster to find information using it than using google alone.
 It helped me with some syntax issues and to figure out why something did not
 work by giving me ideas about where the problem might lie.
+It also gave me the idea to use a socket to stop the container from within,
+although I had to turn down a lot of hallucinations before it gave me it.
+By using it, I learned a lot of things about how containers operate, because
+it always gave a lot of explanations for its suggestions, and because I
+had to google everything to make sure it was not hallucinating.
+I also learned some useful things because of its hallucinations, for example
+about some commercial version of nginx that has more features.
 
 
 # What kind of mistakes the LLM did:
 
 When writing the node server, GhatGPT's server's response to GET was not
-formatted correctly, as the output was all in one line. I used my own original code
-to fix it. ChatGPT also didn't use the correct name for a library function
-from the library I told it to use. ChatGPT was not able to correct the mistake
-with formatting even when requested. ChatGPT wasn't able to keep the output format
-consistent between the two servers, when I wanted the two servers return the same
-information.
+formatted correctly. Many times, it had some small errors in its suggestions
+related to formatting or syntax. Sometimes it just plainly gave false information.
 
 When asking it about specific problems, it many times hallucinated solutions that
 would not work. It also sometimes forgot the context. However, it always gave some
