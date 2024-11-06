@@ -31,12 +31,6 @@ async function fetchDataFromServer(url) {
     }
 }
 
-// Display index page
-app.get('/', async (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-
 app.get('/info', async (req, res) => {
   try {
     await waitIfRequestsTooFrequent();

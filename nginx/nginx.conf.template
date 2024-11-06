@@ -9,19 +9,34 @@ http {
     }
 
     server {
-        listen ${SERVER_PORT};
+        listen ${SERVER_PORT} ;
 
         include /etc/nginx/mime.types;
 
         location / {
             auth_basic "Restricted access";
 	    auth_basic_user_file /etc/nginx/.htpasswd;
-            proxy_pass http://frontend/;
+            root /var/www;
+            index index.html;
+	}
+
+        location /info {
+            proxy_pass http://frontend/info;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
+
+        location /stop_all {
+            proxy_pass http://frontend/stop_all;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+
     }
 
 }
