@@ -65,6 +65,7 @@ services:
     container_name: my_nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     networks:
