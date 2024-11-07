@@ -19,9 +19,11 @@ and nginx.
 
 When visiting localhost:8198 on a browser, login info is asked. You can find login
 info from login.txt. When login info is entered correctly, two buttons and
-a textarea is displayed. When REQUEST is pressed, one of the node servers sends
-a request to the go server. Go server rensponds, and the reponse is displayed
-in the textarea. When STOP is pressed, all containers are stopped.
+a textarea is displayed. When REQUEST is pressed, a request is sent to one of the
+node servers. It send a request to the Go server, and when it gets it, it returns
+it, and the reponse is displayed in the textarea.
+
+When STOP is pressed, all containers are stopped.
 
 Nginx acts as a load balancer to the node servers.
 
