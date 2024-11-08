@@ -9,8 +9,8 @@ b58a685b5531   service1         "docker-entrypoint.s…"   4 seconds ago    Up 3
 valhe@ypsilon:~/Git/DevOpsEx1$ docker network ls
 NETWORK ID     NAME                      DRIVER    SCOPE
 0d1a71b5699a   bridge                    bridge    local
-22cac7f4ac97   devopsex1_backend         bridge    local
-85c3fe8f69f1   devopsex1_loadbalancing   bridge    local
+249f6496abf0   exercise4_backend         bridge    local
+c23dfb3f932c   exercise4_loadbalancing   bridge    local
 bf09796e107e   host                      host      local
 42045bf428ff   none                      null      local
 
