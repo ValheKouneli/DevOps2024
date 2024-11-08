@@ -1,69 +1,69 @@
 services:
-  frontend-1:
-    image: node-docker
-    container_name: my_frontend_1
+  service1-1:
+    image: service1
+    container_name: service_1_1
     networks:
       - loadbalancing
       - backend
     expose:
-      - "${FE_PORT}"
+      - "${SERVICE1_PORT}"
     environment:
-      - PORT=${FE_PORT}
-      - BE_PORT=${BE_PORT} 
-      - FE_WAIT_TIME_MS=${FE_WAIT_TIME_MS}
+      - PORT=${SERVICE1_PORT}
+      - BE_PORT=${SERVICE2_PORT} 
+      - WAIT_TIME_MS=${SERVICE1_WAIT_TIME_MS}
     build:
       context: app1
       dockerfile: Dockerfile
     depends_on:
-      - backend
+      - service2
 
-  frontend-2:
-    image: node-docker
-    container_name: my_frontend_2
+  service1-2:
+    image: service1
+    container_name: service_1_2
     networks:
       - loadbalancing
       - backend
     expose:
-      - "${FE_PORT}"
+      - "${SERVICE1_PORT}"
     environment:
-      - PORT=${FE_PORT}
-      - BE_PORT=${BE_PORT}
-      - FE_WAIT_TIME_MS=${FE_WAIT_TIME_MS}
+      - PORT=${SERVICE1_PORT}
+      - BE_PORT=${SERVICE2_PORT}
+      - WAIT_TIME_MS=${SERVICE1_WAIT_TIME_MS}
     build:
       context: app1
       dockerfile: Dockerfile
     depends_on:
-      - backend
+      - service2
 
 
-  frontend-3:
-    image: node-docker
-    container_name: my_frontend_3
+  service1-3:
+    image: service1
+    container_name: service_1_3
     networks:
       - loadbalancing
       - backend
     expose:
-      - "${FE_PORT}"
+      - "${SERVICE1_PORT}"
     environment:
-      - PORT=${FE_PORT}
-      - BE_PORT=${BE_PORT}
-      - FE_WAIT_TIME_MS=${FE_WAIT_TIME_MS}
+      - PORT=${SERVICE1_PORT}
+      - BE_PORT=${SERVICE2_PORT}
+      - WAIT_TIME_MS=${SERVICE1_WAIT_TIME_MS}
     build:
       context: app1
       dockerfile: Dockerfile
     depends_on:
-      - backend
+      - service2
 
 
-  backend:
-    image: go-docker
-    container_name: my_backend
+  service2:
+    image: service2
+    container_name: service_2
     networks:
       - backend
     expose:
-      - "${BE_PORT}"
+      - "${SERVICE2_PORT}"
     environment:
-      - PORT=${BE_PORT}
+      - PORT=${SERVICE2_PORT}
     build:
       context: app2
       dockerfile: Dockerfile
@@ -73,25 +73,25 @@ services:
  
   nginx:
     image: nginx:1-alpine
-    container_name: my_nginx
+    container_name: nginx
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
       - ./nginx/index.html:/var/www/index.html
-    command: /bin/sh -c "envsubst '$${FE_PORT} $${SERVER_PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+    command: /bin/sh -c "envsubst '$${SERVICE1_PORT} $${INCOMING_TRAFFIC_PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${INCOMING_TRAFFIC_PORT}:${INCOMING_TRAFFIC_PORT}"
     environment:
-      - FE_PORT=${FE_PORT}
-      - SERVER_PORT=${SERVER_PORT}
+      - SERVICE1_PORT=${SERVICE1_PORT}
+      - INCOMING_TRAFFIC_PORT=${INCOMING_TRAFFIC_PORT}
     networks:
       - loadbalancing
       - backend
     depends_on:
-      - frontend-1
-      - frontend-2
-      - frontend-3
-      - backend
+      - service1-1
+      - service1-2
+      - service1-3
+      - service2
 
 networks:
   loadbalancing:

@@ -4,10 +4,11 @@ const os = require('os');
 
 // Initialize the express app
 const app = express();
-const port = process.env.PORT;
+const PORT = process.env.PORT;
+const BE_PORT = process.env.BE_PORT;
 
 
-const WAIT_TIME = process.env.FE_WAIT_TIME_MS // milliseconds
+const WAIT_TIME = process.env.WAIT_TIME_MS // milliseconds
 let timeOfLastResponse = 0;
 
 async function waitIfRequestsTooFrequent() {
@@ -67,7 +68,7 @@ app.get('/info', async (req, res) => {
 
   
 
-    const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}/info`);
+    const infoFromAnother = await fetchDataFromServer(`http://service2:${BE_PORT}/info`);
     
     // Compose response
     const result = `Service1\n\n` +
@@ -88,7 +89,7 @@ app.get('/info', async (req, res) => {
 app.get('/stop_all', async (req, res) => {
   try {
     await waitIfRequestsTooFrequent();
-    const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}/stop-all`);
+    const infoFromAnother = await fetchDataFromServer(`http://service2:${BE_PORT}/stop-all`);
     
     // Send the response
     res.status(200).send({ message: infoFromAnother });
@@ -100,6 +101,6 @@ app.get('/stop_all', async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

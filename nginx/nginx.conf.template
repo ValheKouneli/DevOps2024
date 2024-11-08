@@ -2,14 +2,14 @@ events { }
 
 http {
  
-    upstream frontend {
-        server my_frontend_1:${FE_PORT};
-        server my_frontend_2:${FE_PORT};
-        server my_frontend_3:${FE_PORT};
+    upstream service1 {
+        server service1-1:${SERVICE1_PORT};
+        server service1-2:${SERVICE1_PORT};
+        server service1-3:${SERVICE1_PORT};
     }
 
     server {
-        listen ${SERVER_PORT} ;
+        listen ${INCOMING_TRAFFIC_PORT} ;
 
         include /etc/nginx/mime.types;
         auth_basic "Restricted access";
@@ -21,7 +21,7 @@ http {
 	}
 
         location /info {
-            proxy_pass http://frontend/info;
+            proxy_pass http://service1/info;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -29,7 +29,7 @@ http {
         }
 
         location /stop_all {
-            proxy_pass http://frontend/stop_all;
+            proxy_pass http://service1/stop_all;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

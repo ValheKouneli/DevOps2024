@@ -54,7 +54,9 @@ func getDiskUsage() (string, error) {
 
 func stopAll(w http.ResponseWriter, r *http.Request) {
 	// List of container names
-	containers := []string{"my_nginx", "my_frontend_1", "my_frontend_2", "my_frontend_3", "my_backend"}
+	containers := []string{"nginx", "service_1_1", "service_1_2", "service_1_3", "service_2"}
+
+	fmt.Fprintf(w, "Goodbye\n")
 
 	// Loop through each container name and stop it
 	for _, container := range containers {
