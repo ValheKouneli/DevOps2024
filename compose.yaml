@@ -91,7 +91,6 @@ services:
       - service1-1
       - service1-2
       - service1-3
-      - service2
 
 networks:
   loadbalancing:
