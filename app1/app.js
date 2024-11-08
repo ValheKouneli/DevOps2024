@@ -79,8 +79,6 @@ app.get('/info', async (req, res) => {
 
     // Send the response
     res.status(200).send({ message: result });
-
-    sleep(10000);
   } catch (error) {
     res.status(400).send({ message:`Error: ${error.message}` });
   }
@@ -94,7 +92,6 @@ app.get('/stop_all', async (req, res) => {
     // Send the response
     res.status(200).send({ message: infoFromAnother });
 
-    sleep(10000);
   } catch (error) {
     res.status(400).send({ message:`Error: ${error.message}` });
   }
