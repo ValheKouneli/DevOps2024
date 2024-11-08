@@ -1,16 +1,16 @@
 valhe@ypsilon:~/Git/DevOpsEx1$ docker container ls
 CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS          PORTS                                               NAMES
-873e0e79bbcf   nginx:1-alpine   "/docker-entrypoint.…"   21 seconds ago   Up 20 seconds   80/tcp, 0.0.0.0:8198->8198/tcp, :::8198->8198/tcp   my_nginx
-0be2769e29cf   node-docker      "docker-entrypoint.s…"   22 seconds ago   Up 20 seconds   3000/tcp                                            my_frontend_1
-2a8754b96177   node-docker      "docker-entrypoint.s…"   22 seconds ago   Up 20 seconds   3000/tcp                                            my_frontend_2
-7b295cd934c1   node-docker      "docker-entrypoint.s…"   22 seconds ago   Up 20 seconds   3000/tcp                                            my_frontend_3
-75861e9b1f20   go-docker        "/go-server"             22 seconds ago   Up 21 seconds   8080/tcp                                            my_backend
+8b651f9ec152   service1         "docker-entrypoint.s…"   4 seconds ago    Up 2 seconds    3000/tcp                                            service_1_3
+b58a685b5531   service1         "docker-entrypoint.s…"   4 seconds ago    Up 3 seconds    3000/tcp                                            service_1_2
+832969e68c91   service1         "docker-entrypoint.s…"   4 seconds ago    Up 3 seconds    3000/tcp                                            service_1_1
+5d0d5cd0d2cc   service2         "/go-server"             15 seconds ago   Up 14 seconds   8080/tcp                                            service_2
+9b91899b1ad1   nginx:1-alpine   "/docker-entrypoint.…"   5 minutes ago    Up 5 minutes    80/tcp, 0.0.0.0:8198->8198/tcp, :::8198->8198/tcp   nginx
 
 valhe@ypsilon:~/Git/DevOpsEx1$ docker network ls
 NETWORK ID     NAME                      DRIVER    SCOPE
 0d1a71b5699a   bridge                    bridge    local
-cd3579738b70   devopsex1_backend         bridge    local
-fa618e07a9ae   devopsex1_loadbalancing   bridge    local
+22cac7f4ac97   devopsex1_backend         bridge    local
+85c3fe8f69f1   devopsex1_loadbalancing   bridge    local
 bf09796e107e   host                      host      local
 42045bf428ff   none                      null      local
 
