@@ -97,3 +97,4 @@ networks:
   loadbalancing:
     driver: bridge
   backend:
+    driver: bridge
