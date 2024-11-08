@@ -35,14 +35,26 @@ function getIPAddress() {
 }
 
 
-// Fetch data from another server using curl
-async function fetchDataFromServer(url) {
-    try {
-        const response = await $`curl -s ${url}`;
-        return response.stdout;
-    } catch (error) {
-        return `Error fetching data from ${url}: ${error.message}`;
-    }
+// Send GET request to another server using curl
+async function sendGetRequest(url, ) {
+  try {
+    const response = await $`curl ${method} -s ${url}`;
+    return response.stdout;
+  } catch (error) {
+    return `Error fetching data from ${url}: ${error.message}`;
+  }
+}
+
+// Send POST request to another server using curl
+async function sendPostRequest(url, dataSpecs) {
+  try {
+    console.log(`JUST ABOUT TO RUN curl -X POST ${dataSpecs} -s ${url}`);
+    const response = await $`curl -X POST ${dataSpecs} -s ${url}`;
+    console.log(`RESPONSE ${response.stdout}`);
+    return response.stdout;
+  } catch (error) {
+    return `Error fetching data from ${url}: ${error.message}`;
+  }
 }
 
 app.get('/info', async (req, res) => {
@@ -68,7 +80,7 @@ app.get('/info', async (req, res) => {
 
   
 
-    const infoFromAnother = await fetchDataFromServer(`http://service2:${BE_PORT}/info`);
+    const infoFromAnother = await sendGetRequest(`http://service2:${BE_PORT}/info`);
     
     // Compose response
     const result = `Service1\n\n` +
@@ -84,10 +96,10 @@ app.get('/info', async (req, res) => {
   }
 });
 
-app.get('/stop_all', async (req, res) => {
+app.post('/stop_all', async (req, res) => {
   try {
     await waitIfRequestsTooFrequent();
-    const infoFromAnother = await fetchDataFromServer(`http://service2:${BE_PORT}/stop-all`);
+    const infoFromAnother = await sendPostRequest(`http://service2:${BE_PORT}/stop-all`, "");
     
     // Send the response
     res.status(200).send({ message: infoFromAnother });

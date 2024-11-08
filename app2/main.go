@@ -53,6 +53,11 @@ func getDiskUsage() (string, error) {
 }
 
 func stopAll(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+
 	// List of container names
 	containers := []string{"nginx", "service_1_1", "service_1_2", "service_1_3", "service_2"}
 
@@ -60,8 +65,10 @@ func stopAll(w http.ResponseWriter, r *http.Request) {
 
 	// Loop through each container name and stop it
 	for _, container := range containers {
+		fmt.Printf("Stopping container "+container)
 		_, err := exec.Command("curl", "--unix-socket", "/var/run/docker.sock", "-X", "POST", fmt.Sprintf("http://localhost/containers/%s/stop", container)).Output()
 		if err != nil {
+			fmt.Printf("Error stopping container: "+err.Error())
 			http.Error(w, "Error stopping container: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
