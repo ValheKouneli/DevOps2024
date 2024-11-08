@@ -20,6 +20,19 @@ async function waitIfRequestsTooFrequent() {
   }
 }
 
+// Get IP address
+function getIPAddress() {
+  const interfaces = os.networkInterfaces();
+  for (const iface in interfaces) {
+    for (const details of interfaces[iface]) {
+      if (details.family === 'IPv4' && !details.internal) {
+        return details.address;
+      }
+    }
+  }
+  return 'Not found';
+}
+
 
 // Fetch data from another server using curl
 async function fetchDataFromServer(url) {
@@ -34,10 +47,37 @@ async function fetchDataFromServer(url) {
 app.get('/info', async (req, res) => {
   try {
     await waitIfRequestsTooFrequent();
+    // Get IP Address
+    const ipAddress = getIPAddress();
+
+    // Get system uptime
+    const uptime = await $`uptime -p`;
+
+    // Run the 'ps aux' command
+    const processes = await $`ps aux`;
+    
+    // Run the 'df' command
+    const diskUsage = await $`df`;
+
+    // Combine the output
+    const info = `Server IP Address: ${ipAddress}\n`+
+      `System Uptime: ${uptime}\n`+
+      `\nProcesses (ps aux):\n${processes}\n` +
+      `\nDisk Usage (df):\n${diskUsage}`;
+
+  
+
     const infoFromAnother = await fetchDataFromServer(`http://backend:${process.env.BE_PORT}/info`);
     
+    // Compose response
+    const result = `Service1\n\n` +
+    `${info}` +
+    `\n\n\n` +
+    `Service2\n\n` +
+    `${infoFromAnother}`
+
     // Send the response
-    res.status(200).send({ message: infoFromAnother });
+    res.status(200).send({ message: result });
 
     sleep(10000);
   } catch (error) {
