@@ -20,8 +20,12 @@ and nginx.
 When visiting localhost:8198 on a browser, login info is asked. You can find login
 info from login.txt. When login info is entered correctly, two buttons and
 a textarea is displayed. When REQUEST is pressed, a request is sent to one of the
-node servers. It send a request to the Go server, and when it gets it, it returns
-it, and the reponse is displayed in the textarea.
+node servers. It sends a request to the Go server, which replies with info about it,
+and the node server combines that info with info about itself and returns
+the combined info. The response is displayed in the textarea.
+
+Each node server waits 2 seconds before it responds to the next request.
+This is simulated by conditional waiting at the start of the request handler.
 
 When STOP is pressed, all containers are stopped.
 
