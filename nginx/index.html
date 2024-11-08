@@ -17,11 +17,15 @@
     }
     async function stopContainers() {
       try {
-	const response = await fetch('/stop_all', { method: "POST" });
+	      const response = await fetch('/stop_all', { method: "POST" });
         const data = await response.json();
         document.getElementById('my_textarea').textContent = data.message || data.error;
       } catch (error) {
-        document.getElementById('my_textarea').textContent = `Stop Error (This error is expected): ${error.message}`;
+        if (error.status == undefined) {
+          document.getElementById('my_textarea').textContent = `Assume containers stopped.`;
+        } else {
+          document.getElementById('my_textarea').textContent = `Stop Error: ${error.message}`;
+        }
       }
     }
   </script>
