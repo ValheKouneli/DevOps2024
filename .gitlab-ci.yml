@@ -1,3 +1,7 @@
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "project"
+
 image: docker:latest
 
 stages:
@@ -5,9 +9,8 @@ stages:
 
 deploy:
   stage: deploy
-  image: node:12.22.9-alpine
-  tags: docker-compose
+  tags: 
+    - docker-compose 
   script:
     - docker-compose up -d
-  only: project
 
