@@ -1,7 +1,6 @@
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "project"
-image: docker:latest
 
 stages:
   - deploy
