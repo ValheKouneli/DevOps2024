@@ -5,6 +5,9 @@ stages:
 
 deploy:
   stage: deploy
+  image: node:12.22.9-alpine
+  tags: docker-compose
   script:
     - docker-compose up -d
+  only: project
 
