@@ -1,3 +1,5 @@
+image: docker/compose:1.29.2
+
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "project"
@@ -10,4 +12,8 @@ deploy:
   tags: 
     - docker-compose 
   script:
+    - docker-compose build --no-cache
     - docker-compose up -d
+  before_script:
+    - docker --version
+    - docker-compose --version
