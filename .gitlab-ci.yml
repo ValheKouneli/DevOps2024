@@ -8,7 +8,7 @@ stages:
 
 run tests:
   stage: test
-  image: node:24
+  image: node:23
   services:
     - docker:24.0.5-dind # docker-in-docker
   tags:
