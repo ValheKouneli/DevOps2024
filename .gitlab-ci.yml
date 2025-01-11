@@ -15,15 +15,16 @@ run tests:
     - docker-compose
     - test
   before_script:
+    - pwd
     - WORKING_DIR=$(pwd)
-    - apk add nodejs npm docker-compose
+    - apk add nodejs npm docker-compose curl
     - node -v
     - npm -v
     - docker info
     - docker-compose up -d
     - |
-      until [ "$(docker ps -q | wc -l)" -eq 5 ]; do
-        echo "Waiting system to be ready..."
+      until curl -s http://localhost:8198/ | grep 'nginx'; do
+        echo "Waiting for API to be ready..."
         sleep 5
       done
   script:
@@ -31,7 +32,9 @@ run tests:
     - npm install
     - npm test
   after_script:
+    - pwd
     - cd $WORKING_DIR
+    - pwd
     - docker-compose down
 
 deploy:
