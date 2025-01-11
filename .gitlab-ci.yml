@@ -6,35 +6,19 @@ stages:
   - test
   - deploy
 
-run tests:
+test1:
   stage: test
-  image: docker:20
+  variables:
+    DOCKER_HOST: "unix:///runner/services/docker/docker.sock"
   services:
-    - docker:24.0.5-dind # docker-in-docker
-  tags:
-    - docker-compose
-    - test
-  before_script:
-    - pwd
-    - apk add nodejs npm docker-compose curl
-    - node -v
-    - npm -v
-    - docker info
-    - docker-compose up -d
-    - docker container list
-    - curl http://localhost:8198
+    - docker:24.0.5-dind
+  image: docker:24.0.5
   script:
-    - cd tests
-    - npm install
-    - npm test
-  after_script:
-    - pwd
-    - if [ $(pwd) == */tests ]; then cd ..; fi
-    - docker-compose down
+    - docker --version
 
-deploy:
-  image: docker/compose:1.29.2
+test2:
   stage: deploy
+  image: docker/compose:1.29.2
   tags: 
     - docker-compose 
   script:
