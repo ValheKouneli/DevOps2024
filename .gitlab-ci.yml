@@ -16,25 +16,18 @@ run tests:
     - test
   before_script:
     - pwd
-    - WORKING_DIR=$(pwd)
-    - apk add nodejs npm docker-compose curl
+    - apk add nodejs npm docker-compose
     - node -v
     - npm -v
     - docker info
     - docker-compose up -d
-    - |
-      until curl -s http://localhost:8198/ | grep 'nginx'; do
-        echo "Waiting for API to be ready..."
-        sleep 5
-      done
   script:
     - cd tests
     - npm install
     - npm test
   after_script:
     - pwd
-    - cd $WORKING_DIR
-    - pwd
+    - [[ $(pwd) == */tests ]] && cd ..
     - docker-compose down
 
 deploy:
