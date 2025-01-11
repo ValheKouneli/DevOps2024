@@ -1,13 +1,41 @@
-image: docker/compose:1.29.2
-
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "project"
 
 stages:
+  - test
   - deploy
 
+run tests:
+  stage: test
+  image: node:24
+  services:
+    - docker:24.0.5-dind # docker-in-docker
+  tags:
+    - docker-compose
+    - test
+    - node
+    - mocha
+  working_directory: 
+  before_script:
+    - WORKING_DIR=$(pwd)
+    - docker info
+    - docker-compose up -d
+    - |
+      until [ "$(docker ps -q | wc -l)" -eq 5 ]; do
+        echo "Waiting system to be ready..."
+        sleep 5
+      done
+  script:
+    - cd tests
+    - npm install
+    - npm test
+  after_script:
+    - cd $WORKING_DIR
+    - docker-compose down
+
 deploy:
+  image: docker/compose:1.29.2
   stage: deploy
   tags: 
     - docker-compose 
