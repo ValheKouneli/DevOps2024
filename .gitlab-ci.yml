@@ -8,7 +8,7 @@ stages:
 
 run tests:
   stage: test
-  image: node:23
+  image: docker:20
   services:
     - docker:24.0.5-dind # docker-in-docker
   tags:
@@ -16,6 +16,9 @@ run tests:
     - test
   before_script:
     - WORKING_DIR=$(pwd)
+    - apk add nodejs npm docker-compose
+    - node -v
+    - npm -v
     - docker info
     - docker-compose up -d
     - |
