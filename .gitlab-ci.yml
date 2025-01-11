@@ -4,23 +4,9 @@ workflow:
 
 stages:
   - test
-  - deploy
 
-test1:
+temp:
   stage: test
-  variables:
-    DOCKER_HOST: "unix:///runner/services/docker/docker.sock"
-  services:
-    - docker:24.0.5-dind
-  image: docker:24.0.5
-  script:
-    - docker --version
-
-test2:
-  stage: deploy
-  variables:
-    DOCKER_HOST: "unix:///var/run/docker.sock"
-  image: docker/compose:1.29.2
   tags: 
     - docker-compose 
   script:
