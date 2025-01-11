@@ -11,4 +11,4 @@ temp:
   tags: 
     - docker-compose 
   script:
-    - sudo find / -name docker.sock
+    - ls -a /var/run/
