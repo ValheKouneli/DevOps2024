@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "axios": "^1.7.9",
+    "chai": "^5.1.2",
+    "mocha": "^11.0.1"
+  },
+  "scripts": {
+    "test": "mocha --recursive --timeout 5000 --exit"
+  },
+  "type": "module"
+}
