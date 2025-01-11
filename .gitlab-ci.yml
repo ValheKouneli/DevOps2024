@@ -7,7 +7,7 @@ stages:
 
 temp:
   stage: test
-  image: tmaier/docker-compose:latest
+  image: docker:latest
   tags: 
     - docker-compose 
   before_script:
