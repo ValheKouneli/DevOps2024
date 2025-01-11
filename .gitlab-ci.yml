@@ -12,6 +12,7 @@ temp:
     - docker-compose 
   before_script:
     - echo $DOCKER_HOST
+    - unset DOCKER_HOST
     - docker --version
     - docker-compose --version
   script:
