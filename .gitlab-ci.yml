@@ -10,9 +10,4 @@ temp:
   tags: 
     - docker-compose 
   script:
-    - docker-compose build --no-cache
-    - docker-compose up -d
-  before_script:
-    - echo $DOCKER_HOST
-    - docker --version
-    - docker-compose --version
+    - sudo find / -name docker.sock
