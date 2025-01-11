@@ -14,8 +14,6 @@ run tests:
   tags:
     - docker-compose
     - test
-    - node
-    - mocha
   before_script:
     - WORKING_DIR=$(pwd)
     - docker info
