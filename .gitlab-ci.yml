@@ -27,7 +27,7 @@ run tests:
     - npm test
   after_script:
     - pwd
-    - [[ $(pwd) == */tests ]] && cd ..
+    - if [ $(pwd) == */tests ]; then cd ..; fi
     - docker-compose down
 
 deploy:
