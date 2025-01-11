@@ -16,11 +16,13 @@ run tests:
     - test
   before_script:
     - pwd
-    - apk add nodejs npm docker-compose
+    - apk add nodejs npm docker-compose curl
     - node -v
     - npm -v
     - docker info
     - docker-compose up -d
+    - docker container list
+    - curl http://localhost:8198
   script:
     - cd tests
     - npm install
