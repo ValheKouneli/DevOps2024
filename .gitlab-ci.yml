@@ -8,11 +8,12 @@ stages:
 temp:
   stage: test
   image: docker:latest
+  variables:
+    DOCKER_HOST: tcp://docker:6982
   tags: 
     - docker-compose 
   before_script:
     - echo $DOCKER_HOST
-    - unset DOCKER_HOST
     - docker --version
     - docker-compose --version
   script:
