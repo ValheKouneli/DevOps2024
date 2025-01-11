@@ -16,7 +16,6 @@ run tests:
     - test
     - node
     - mocha
-  working_directory: 
   before_script:
     - WORKING_DIR=$(pwd)
     - docker info
