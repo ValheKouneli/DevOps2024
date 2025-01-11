@@ -9,7 +9,7 @@ temp:
   stage: test
   image: docker:latest
   variables:
-    DOCKER_HOST: tcp://docker:6982
+    DOCKER_HOST: unix:///var/run/docker.sock
   tags: 
     - docker-compose 
   before_script:
