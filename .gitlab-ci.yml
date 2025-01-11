@@ -13,7 +13,8 @@ temp:
   tags: 
     - docker-compose 
   before_script:
-    - ls /var/run
+    - whoami
+    - ls -l /var/run/docker.sock
     - echo $DOCKER_HOST
     - docker --version
     - docker-compose --version
