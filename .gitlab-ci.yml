@@ -12,3 +12,5 @@ temp:
     - docker-compose 
   script:
     - ls -a /var/run/
+    - apk add docker-compose
+    - docker-compose up -d
