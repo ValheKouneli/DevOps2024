@@ -15,6 +15,7 @@ test:
     - docker-compose 
   before_script:
     - whoami
+    - apk add npm
     - ls -l /var/run/docker.sock
     - echo $DOCKER_HOST
     - docker --version
@@ -23,7 +24,9 @@ test:
     - docker-compose up -d
   script:
     - cd tests
+    - npm install
     - npm run test
   after_script:
+    - pwd
     - cd ..
     - docker-compose down
