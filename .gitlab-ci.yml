@@ -4,10 +4,11 @@ workflow:
 
 stages:
   - test
+  - deploy
 
-temp:
+test:
   stage: test
-  image: docker:latest
+  image: docker:24.0.5
   variables:
     DOCKER_HOST: unix:///var/run/docker.sock
   tags: 
@@ -18,6 +19,11 @@ temp:
     - echo $DOCKER_HOST
     - docker --version
     - docker-compose --version
-  script:
     - docker-compose build --no-cache
     - docker-compose up -d
+  script:
+    - cd tests
+    - npm run test
+  after_script:
+    - cd ..
+    - docker-compose down
