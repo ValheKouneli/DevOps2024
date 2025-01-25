@@ -5,7 +5,6 @@ workflow:
 stages:
   - build
   - test
-  - deploy
 
 default:
   image: docker:24.0.5
