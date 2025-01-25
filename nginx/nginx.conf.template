@@ -11,12 +11,12 @@ http {
 
         include /etc/nginx/mime.types;
         auth_basic "Restricted access";
-	auth_basic_user_file /etc/nginx/.htpasswd;
+	    auth_basic_user_file /etc/nginx/.htpasswd;
  
         location / {
             root /var/www;
             index index.html;
-	}
+	    }
 
         location /info {
             proxy_pass http://service1/info;
