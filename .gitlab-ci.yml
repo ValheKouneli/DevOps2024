@@ -44,13 +44,17 @@ build:
 
 test:
   stage: test
+  variables:
+    RUNNING_LOCATION: "docker"
+    PASSWORD_LOCATION: "./tests/test-credentials-are-test-test"
   tags: 
     - docker-runner
     - test 
   before_script:
     - apk add npm
     - docker-compose up -d
+
   script:
     - cd tests
     - npm install
-    - export RUNNING_LOCATION=docker && npm run test 
+    - npm run test 
