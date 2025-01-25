@@ -37,7 +37,7 @@ services:
     image: nginx:1-alpine
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
-      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
+      - ${PASSWORD_LOCATION}:/etc/nginx/.htpasswd
       - ./nginx/index.html:/var/www/index.html
     command: /bin/sh -c "envsubst '$${SERVICE1_PORT} $${INCOMING_TRAFFIC_PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
     ports:
@@ -45,6 +45,7 @@ services:
     environment:
       - SERVICE1_PORT=${SERVICE1_PORT}
       - INCOMING_TRAFFIC_PORT=${INCOMING_TRAFFIC_PORT}
+      - PASSWORD_LOCATION=${PASSWORD_LOCATION}
     networks:
       - loadbalancing
       - backend
