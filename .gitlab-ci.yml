@@ -33,7 +33,8 @@ variables:
 test:
   stage: test
   tags: 
-    - docker-compose 
+    - docker-runner
+    - test 
   before_script:
     - whoami
     - docker info
