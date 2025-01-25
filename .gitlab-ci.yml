@@ -3,6 +3,7 @@ workflow:
     - if: $CI_COMMIT_BRANCH == "project"
 
 stages:
+  - build
   - test
   - deploy
 
@@ -29,6 +30,14 @@ variables:
   # `/certs/client` to share between the service and job
   # container, thanks to volume mount from config.toml
   DOCKER_TLS_CERTDIR: "/certs"
+
+build:
+  stage: build
+  tags:
+    - docker-runner
+    - build
+  script:
+    - docker-compose build --no-cache
 
 test:
   stage: test
