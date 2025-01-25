@@ -11,7 +11,10 @@ default:
   services:
     - docker:24.0.5-dind
   before_script:
+    - whoami
     - docker info
+    - docker --version
+    - docker-compose --version
 
 variables:
   # When you use the dind service, you must instruct Docker to talk with
@@ -44,12 +47,7 @@ test:
     - docker-runner
     - test 
   before_script:
-    - whoami
-    - docker info
     - apk add npm
-    - docker --version
-    - docker-compose --version
-    - docker-compose build --no-cache
     - docker-compose up -d
   script:
     - cd tests
