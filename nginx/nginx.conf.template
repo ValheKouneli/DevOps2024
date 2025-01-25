@@ -3,9 +3,7 @@ events { }
 http {
  
     upstream service1 {
-        server service1-1:${SERVICE1_PORT};
-        server service1-2:${SERVICE1_PORT};
-        server service1-3:${SERVICE1_PORT};
+        server service1:${SERVICE1_PORT};
     }
 
     server {

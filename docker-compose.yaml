@@ -1,25 +1,6 @@
 services:
-  service1-1:
+  service1:
     image: service1
-    container_name: service_1_1
-    networks:
-      - loadbalancing
-      - backend
-    expose:
-      - "${SERVICE1_PORT}"
-    environment:
-      - PORT=${SERVICE1_PORT}
-      - BE_PORT=${SERVICE2_PORT} 
-      - WAIT_TIME_MS=${SERVICE1_WAIT_TIME_MS}
-    build:
-      context: app1
-      dockerfile: Dockerfile
-    depends_on:
-      - service2
-
-  service1-2:
-    image: service1
-    container_name: service_1_2
     networks:
       - loadbalancing
       - backend
@@ -34,30 +15,12 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - service2
-
-
-  service1-3:
-    image: service1
-    container_name: service_1_3
-    networks:
-      - loadbalancing
-      - backend
-    expose:
-      - "${SERVICE1_PORT}"
-    environment:
-      - PORT=${SERVICE1_PORT}
-      - BE_PORT=${SERVICE2_PORT}
-      - WAIT_TIME_MS=${SERVICE1_WAIT_TIME_MS}
-    build:
-      context: app1
-      dockerfile: Dockerfile
-    depends_on:
-      - service2
-
+    deploy:
+      mode: replicated
+      replicas: 3
 
   service2:
     image: service2
-    container_name: service_2
     networks:
       - backend
     expose:
@@ -67,13 +30,11 @@ services:
     build:
       context: app2
       dockerfile: Dockerfile
-    volumes:     
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
- 
   nginx:
     image: nginx:1-alpine
-    container_name: nginx
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
@@ -88,9 +49,7 @@ services:
       - loadbalancing
       - backend
     depends_on:
-      - service1-1
-      - service1-2
-      - service1-3
+      - service1
 
 networks:
   loadbalancing:
